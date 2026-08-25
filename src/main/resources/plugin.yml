@@ -1,0 +1,26 @@
+name: SSchedules
+version: 1.0.0
+main: me.sirius.sschedules.SSchedules
+api-version: '1.21'
+author: Sirius
+description: Sistema avanzado de schedules con soporte para comandos especializados
+# Sin SiriusCore.jar, Bukkit ni intenta cargar este plugin.
+depend:
+  - SiriusCore
+
+softdepend: [PlaceholderAPI, Vault]
+
+commands:
+  sschedules:
+    description: Comando principal de SSchedules
+    usage: /<command> [reload|list|info|enable|disable|execute]
+    aliases: [schedule, ss]
+    permission: sschedules.admin
+
+permissions:
+  sschedules.admin:
+    description: Acceso a todos los comandos de administración
+    default: op
+  cmi.scheduler.exclude:
+    description: Excluye al jugador de [randomPlayer]
+    default: false

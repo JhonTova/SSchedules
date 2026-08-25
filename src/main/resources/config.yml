@@ -1,0 +1,790 @@
+
+# ========================================
+# SSchedules - Sistema Avanzado de Schedules
+# ========================================
+
+# Zona horaria del servidor (Usa el formato de Java TimeZone)
+# Colombia: America/Bogota
+# México: America/Mexico_City
+# Argentina: America/Argentina/Buenos_Aires
+# España: Europe/Madrid
+#- actionbar! &b&l💎 Mensaje en la barra de acción
+#- broadcast! &eMensaje para todos
+#- delay! 5  # Espera 5 segundos
+#- msg! NombreJugador &aHola!
+#- title! &cTítulo Grande
+#- subtitle! &eSubtítulo pequeño
+#- kickall! &cServidor reiniciando
+#- allPlayers! give [allPlayers] diamond 1
+#- give [randomPlayer] diamond %rand/1-64%
+#- give [randomPlayer] diamond 64
+# Placeholders disponibles:
+# %schedule_nombredelschedule%
+timezone: America/Bogota
+
+# Horario de exclusión para schedules continuos (sin día específico)
+# Los schedules con días definidos (monday, tuesday, etc.) NO se ven afectados
+# Los schedules continuos se pausarán en este rango de horas
+# Formato: HH:MM-HH:MM (ejemplo: 00:00-06:00 pausará de medianoche a 6am)
+# Dejar vacío "" para desactivar
+exclude-times: ""
+
+# ========================================
+# MENSAJE DE JUGADORES INSUFICIENTES
+# ========================================
+insufficient-players-message:
+  # Habilitar/deshabilitar el mensaje globalmente
+  enabled: true
+  
+  # Tipo de mensaje: 'broadcast', 'actionbar', 'title', 'subtitle'
+  # broadcast - Mensaje en el chat
+  # actionbar - Mensaje en la barra de acción
+  # title - Título grande en pantalla
+  # subtitle - Subtítulo en pantalla
+  type: broadcast
+  
+  # Mensaje cuando no hay suficientes jugadores
+  # Placeholders disponibles:
+  # {schedule} - Nombre del schedule
+  # {current} - Jugadores actuales
+  # {required} - Jugadores requeridos
+  message: "&c&l⚠ &fEl evento &e{schedule} &fno se activó por falta de jugadores &8(&c{current}&7/&a{required}&8)"
+  
+  # Mensaje alternativo para actionbar (más corto)
+  actionbar-message: "&c⚠ {schedule} &7cancelado &8• &c{current}&7/&a{required} jugadores"
+  
+  # Configuración para título/subtítulo
+  title-main: "&c&l⚠ EVENTO CANCELADO ⚠"
+  title-sub: "&f{schedule} &8• &c{current}&7/&a{required} jugadores"
+  title-fade-in: 10
+  title-stay: 70
+  title-fade-out: 20
+
+countdown-format:
+  # Formatos disponibles:
+  # {days} {d} - Días
+  # {hours} {h} - Horas  
+  # {minutes} {m} - Minutos
+  # {seconds} {s} - Segundos
+  # Usa & para colores legacy o &#RRGGBB para colores hex
+  with-days: "&c{days}D &e{hours}H &a{minutes}M"
+  with-hours: "&e{hours}H &a{minutes}M &7{seconds}S"
+  with-minutes: "&a{minutes}M &7{seconds}S"
+  with-seconds: "&7{seconds}S"
+  executing: "&6⚡ Ejecutando..."
+  disabled: "&cDeshabilitado"
+  not-found: "&7No encontrado"
+  no-schedule: "&7Sin programar"
+  starting: "&eIniciando..."
+
+schedules:
+  AnuncioConstante:
+    Enabled: true
+    Repeat: true
+    PerformOn:
+      '1':
+        Second: 30
+    Commands:
+    - broadcast! &e⏰ Este es un mensaje de prueba plugin developed by ksirius
+
+  StopServer:
+    Enabled: false
+    PerformOn:
+      '1':
+        Hour: 3
+        Minute: 59
+        Second: 30
+    Commands:
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &630 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 5
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &625 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 5
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &620 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 5
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &615 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 5
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &610 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 5
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &65 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 1
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &64 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 1
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &63 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 1
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &62 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 1
+    - actionbar! &eʀᴇɪɴɪᴄɪᴏ ᴇɴ &61 &eꜱᴇᴄ, ᴠᴏʟᴠᴇᴍᴏs ᴇɴ 1 ᴍɪɴᴜᴛᴏ!
+    - delay! 1
+    - kickall! &esᴇʀᴠɪᴅᴏʀ ᴅᴇᴛᴇɴɪᴅᴏ, ᴠᴏʟᴠᴇᴍᴏs ᴘʀᴏɴᴛᴏ!
+    - delay! 1
+    - stop
+    
+  keyall:
+    Enabled: false
+    PerformOn:
+      '1':
+        Hour: 3
+        Minute: 54
+        Second: 30
+    Commands:
+    - actionbar! &d&l✨ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l60 &d&lꜱᴇɢᴜɴᴅᴏꜱ ✨
+    - rawmsg all true <n>&d&l━━━━━━━━━━━━━━━━━━━━━━━<n>&d&l🌸 ᴍʏꜱᴛʜɪᴄ ꜱᴀᴋᴜʀᴀ 🌸<n><n>&f✨ &dɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ&f...<n>&f⛔ &cᴍᴜʟᴛɪᴄᴜᴇɴᴛᴀꜱ ᴘʀᴏʜɪʙɪᴅᴀꜱ<n><n>&d&l━━━━━━━━━━━━━━━━━━━━━━━<n>
+    - delay! 10
+    - actionbar! &d&l✨ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l50 &d&lꜱᴇɢᴜɴᴅᴏꜱ ✨
+    - delay! 10
+    - actionbar! &d&l✨ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l40 &d&lꜱᴇɢᴜɴᴅᴏꜱ ✨
+    - delay! 10
+    - actionbar! &d&l✨ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l30 &d&lꜱᴇɢᴜɴᴅᴏꜱ ✨
+    - delay! 10
+    - rawmsg all true <n>&d&l━━━━━━━━━━━━━━━━━━━━━━━<n>&d&l🌸 ᴍʏꜱᴛʜɪᴄ ꜱᴀᴋᴜʀᴀ 🌸<n><n>&f✨ &dɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ&f...<n>&f⛔ &cᴍᴜʟᴛɪᴄᴜᴇɴᴛᴀꜱ ᴘʀᴏʜɪʙɪᴅᴀꜱ<n><n>&d&l━━━━━━━━━━━━━━━━━━━━━━━<n>
+    - delay! 10
+    - actionbar! &d&l✨ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l20 &d&lꜱᴇɢᴜɴᴅᴏꜱ ✨
+    - rawmsg all true <n>&d&l━━━━━━━━━━━━━━━━━━━━━━━<n>&d&l🌸 ᴍʏꜱᴛʜɪᴄ ꜱᴀᴋᴜʀᴀ 🌸<n><n>&f✨ &dɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ&f...<n>&f⛔ &cᴍᴜʟᴛɪᴄᴜᴇɴᴛᴀꜱ ᴘʀᴏʜɪʙɪᴅᴀꜱ<n><n>&d&l━━━━━━━━━━━━━━━━━━━━━━━<n>
+    - actionbar! &d&l✨ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l10 &d&lꜱᴇɢᴜɴᴅᴏꜱ ✨
+    - delay! 10
+    - actionbar! &c&l⚠ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l5 &c&lꜱᴇɢᴜɴᴅᴏꜱ ⚠
+    - delay! 1
+    - actionbar! &c&l⚠ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l4 &c&lꜱᴇɢᴜɴᴅᴏꜱ ⚠
+    - delay! 1
+    - actionbar! &c&l⚠ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l3 &c&lꜱᴇɢᴜɴᴅᴏꜱ ⚠
+    - delay! 1
+    - actionbar! &c&l⚠ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l2 &c&lꜱᴇɢᴜɴᴅᴏꜱ ⚠
+    - delay! 1
+    - actionbar! &c&l⚠ ɪɴɪᴄɪᴀɴᴅᴏ ᴋᴇʏ ᴀʟʟ ᴇɴ &f&l1 &c&lꜱᴇɢᴜɴᴅᴏ ⚠
+    - delay! 1
+    - excellentcrates key giveall zen 5
+    - excellentcrates key giveall jade 5
+    - excellentcrates key giveall cristal 5
+    - excellentcrates key giveall loto 5
+    
+# ========================================
+#     CONFIGURACIÓN DE KOTHS
+# ========================================
+# Distribución: 1 Crystal PVP + 1 Custom PVP diario
+# Megakoths: Domingo (Custom) y Sábado (Crystal)
+# ========================================
+
+  # ==========================================
+  #           CRYSTAL PVP KOTHS
+  # ==========================================
+  
+  koth-mina:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      '1':
+        Day: monday
+        Hour: 14
+        Minute: 0
+      '2':
+        Day: wednesday
+        Hour: 16
+        Minute: 0
+      '3':
+        Day: friday
+        Hour: 15
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&b💎&8] &fᴋᴏᴛʜ ᴍɪɴᴀ ɪɴɪᴄɪᴀʀá ᴇɴ &b2 ᴍɪɴᴜᴛᴏs &8• &7/ᴋᴏᴛʜs &8(&b⚔ CRYSTAL PVP &8- &4SIN Keep Inventory&8)<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&b💎&8] &fᴋᴏᴛʜ ᴍɪɴᴀ ɪɴɪᴄɪᴀ ᴇɴ &b60 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &760s
+    - delay! 30
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &730s
+    - delay! 20
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &710s
+    - delay! 5
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &75s
+    - delay! 1
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &74s
+    - delay! 1
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &73s
+    - delay! 1
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &72s
+    - delay! 1
+    - actionbar! &b&l💎 ᴋᴏᴛʜ ᴍɪɴᴀ &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&b&lᴋᴏᴛʜ ᴍɪɴᴀ<n> <n>&b&lᴋᴏᴛʜ ᴍɪɴᴀ &fʜᴀ ɪɴɪᴄɪᴀᴅᴏ<n>&fᴀʙʀᴇ ᴇʟ ᴍᴇɴú ᴄᴏɴ &b/ᴋᴏᴛʜs<n>&b&l⚔ ¡CRYSTAL PVP! &8(&4SIN Keep Inventory&8)<n><n>
+    - skoth start MINA REMAIN
+    
+  koth-mistico:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      '1':
+        Day: tuesday
+        Hour: 15
+        Minute: 0
+      '2':
+        Day: thursday
+        Hour: 17 
+        Minute: 0
+      '3':
+        Day: sunday
+        Hour: 16
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&d✨&8] &fᴋᴏᴛʜ ᴍísᴛɪᴄᴏ ɪɴɪᴄɪᴀʀá ᴇɴ &d2 ᴍɪɴᴜᴛᴏs &8• &7/ᴋᴏᴛʜs &8(&b⚔ CRYSTAL PVP &8- &aKeep Inventory&8)<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&d✨&8] &fᴋᴏᴛʜ ᴍísᴛɪᴄᴏ ɪɴɪᴄɪᴀ ᴇɴ &d60 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &760s
+    - delay! 30
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &730s
+    - delay! 20
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &710s
+    - delay! 5
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &75s
+    - delay! 1
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &74s
+    - delay! 1
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &73s
+    - delay! 1
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &72s
+    - delay! 1
+    - actionbar! &d&l✨ ᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&d&lᴋᴏᴛʜ ᴍísᴛɪᴄᴏ<n> <n>&d&lᴋᴏᴛʜ ᴍísᴛɪᴄᴏ &fʜᴀ ɪɴɪᴄɪᴀᴅᴏ<n>&fᴀʙʀᴇ ᴇʟ ᴍᴇɴú ᴄᴏɴ &d/ᴋᴏᴛʜs<n>&b&l⚔ ¡CRYSTAL PVP - ALTO RIESGO! &8(&aKeep Inventory&8)<n><n>
+    - skoth start MISTICO REMAIN
+    
+  # ==========================================
+  #           CUSTOM PVP KOTHS
+  # ==========================================
+  
+  koth-end:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      '1':
+        Day: monday
+        Hour: 18
+        Minute: 0
+      '2':
+        Day: wednesday
+        Hour: 20
+        Minute: 0
+      '3':
+        Day: friday
+        Hour: 19
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&5🔮&8] &fᴋᴏᴛʜ ᴇɴᴅ ɪɴɪᴄɪᴀʀá ᴇɴ &52 ᴍɪɴᴜᴛᴏs &8• &7/ᴋᴏᴛʜs &8(&6⚔ CUSTOM PVP &8- &4SIN Keep Inventory&8)<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&5🔮&8] &fᴋᴏᴛʜ ᴇɴᴅ ɪɴɪᴄɪᴀ ᴇɴ &560 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &760s
+    - delay! 30
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &730s
+    - delay! 20
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &710s
+    - delay! 5
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &75s
+    - delay! 1
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &74s
+    - delay! 1
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &73s
+    - delay! 1
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &72s
+    - delay! 1
+    - actionbar! &5&l🔮 ᴋᴏᴛʜ ᴇɴᴅ &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&5&lᴋᴏᴛʜ ᴇɴᴅ<n> <n>&5&lᴋᴏᴛʜ ᴇɴᴅ &fʜᴀ ɪɴɪᴄɪᴀᴅᴏ<n>&fᴀʙʀᴇ ᴇʟ ᴍᴇɴú ᴄᴏɴ &5/ᴋᴏᴛʜs<n>&6&l⚔ ¡CUSTOM PVP - DIFICULTAD ALTA! &8(&4SIN Keep&8)<n><n>
+    - skoth start END REMAIN
+    
+  koth-tenebroso-keep:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      '1':
+        Day: tuesday
+        Hour: 19
+        Minute: 0
+      '2':
+        Day: thursday
+        Hour: 13
+        Minute: 30
+    Commands:
+    - rawmsg all true <n>&8[&8💀&8] &fᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ ɪɴɪᴄɪᴀʀá ᴇɴ &82 ᴍɪɴᴜᴛᴏs &8• &7/ᴋᴏᴛʜs &8(&6⚔ CUSTOM PVP &8- &aKeep Inventory&8)<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&8💀&8] &fᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ ɪɴɪᴄɪᴀ ᴇɴ &860 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &760s
+    - delay! 30
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &730s
+    - delay! 20
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &710s
+    - delay! 5
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &75s
+    - delay! 1
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &74s
+    - delay! 1
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &73s
+    - delay! 1
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &72s
+    - delay! 1
+    - actionbar! &8&l💀 ᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&8&lᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ<n> <n>&8&lᴋᴏᴛʜ ᴛᴇɴᴇʙʀᴏsᴏ &fʜᴀ ɪɴɪᴄɪᴀᴅᴏ<n>&fᴀʙʀᴇ ᴇʟ ᴍᴇɴú ᴄᴏɴ &8/ᴋᴏᴛʜs<n>&6&l⚔ ¡CUSTOM PVP - DIFICULTAD FÁCIL! &8(&aKeep Inventory&8)<n><n>
+    - skoth start TENEBROSO_KEEP REMAIN
+    
+  # ==========================================
+  #         MEGAKOTHS ESPECIALES
+  # ==========================================
+  
+  koth-megakoth:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      '1':
+        Day: sunday
+        Hour: 13
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&6⚔&8] &f&l✦ MEGAKOTH ✦ &fɪɴɪᴄɪᴀʀá ᴇɴ &62 ᴍɪɴᴜᴛᴏs &8• &7/ᴋᴏᴛʜs &8(&6⚔ CUSTOM PVP &8- &4SIN Keep Inventory&8)<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&6⚔&8] &f&l✦ MEGAKOTH ✦ &fɪɴɪᴄɪᴀ ᴇɴ &660 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &6&l⚔ MEGAKOTH &8• &760s
+    - delay! 30
+    - actionbar! &6&l⚔ MEGAKOTH &8• &730s
+    - delay! 20
+    - actionbar! &6&l⚔ MEGAKOTH &8• &710s
+    - delay! 5
+    - actionbar! &6&l⚔ MEGAKOTH &8• &75s
+    - delay! 1
+    - actionbar! &6&l⚔ MEGAKOTH &8• &74s
+    - delay! 1
+    - actionbar! &6&l⚔ MEGAKOTH &8• &73s
+    - delay! 1
+    - actionbar! &6&l⚔ MEGAKOTH &8• &72s
+    - delay! 1
+    - actionbar! &6&l⚔ MEGAKOTH &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&6&l✦ MEGAKOTH ✦<n> <n>&6&l✦ MEGAKOTH ✦ &fʜᴀ ɪɴɪᴄɪᴀᴅᴏ<n>&fᴀʙʀᴇ ᴇʟ ᴍᴇɴú ᴄᴏɴ &6/ᴋᴏᴛʜs<n>&6&l⚔ ¡CUSTOM PVP EXTREMO! &8(&4SIN Keep&8)<n><n>
+    - skoth start MEGAKOTH ACCUMULATE
+    
+  koth-megakoth-crystal:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      '1':
+        Day: saturday
+        Hour: 21
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&b💎⚔&8] &f&l✦ MEGAKOTH CRYSTAL ✦ &fɪɴɪᴄɪᴀʀá ᴇɴ &b2 ᴍɪɴᴜᴛᴏs &8• &7/ᴋᴏᴛʜs &8(&b⚔ CRYSTAL PVP &8- &4SIN Keep Inventory&8)<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&b💎⚔&8] &f&l✦ MEGAKOTH CRYSTAL ✦ &fɪɴɪᴄɪᴀ ᴇɴ &b60 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &760s
+    - delay! 30
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &730s
+    - delay! 20
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &710s
+    - delay! 5
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &75s
+    - delay! 1
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &74s
+    - delay! 1
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &73s
+    - delay! 1
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &72s
+    - delay! 1
+    - actionbar! &b&l💎⚔ MEGAKOTH CRYSTAL &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&b&l✦ MEGAKOTH CRYSTAL ✦<n> <n>&b&l✦ MEGAKOTH CRYSTAL ✦ &fʜᴀ ɪɴɪᴄɪᴀᴅᴏ<n>&fᴀʙʀᴇ ᴇʟ ᴍᴇɴú ᴄᴏɴ &b/ᴋᴏᴛʜs<n>&b&l⚔ ¡CRYSTAL PVP EXTREMO! &8(&4SIN Keep&8)<n><n>
+    - skoth start MEGAKOTH_CRYSTAL ACCUMULATE
+
+# ========================================
+#        CALENDARIO SEMANAL
+# ========================================
+# Lunes:    14:00 Mina (Crystal) | 18:00 End (Custom)
+# Martes:   15:00 Místico (Crystal) | 19:00 Tenebroso (Custom)
+# Miércoles: 16:00 Mina (Crystal) | 20:00 End (Custom)
+# Jueves:   13:30 Tenebroso (Custom) | 17:00 Místico (Crystal)
+# Viernes:  15:00 Mina (Crystal) | 19:00 End (Custom)
+# Sábado:   21:00 MEGAKOTH CRYSTAL ✦
+# Domingo:  13:00 MEGAKOTH (Custom) ✦ | 16:00 Místico (Crystal)
+# ========================================
+
+# ====================================
+# SISTEMA DE DUNGEONS UNIFICADO
+# 3 apariciones diarias cada jefe
+# Horario: 10:00 AM - 10:00 PM
+# ====================================
+
+  # MALORA - Todas las apariciones en un solo schedule
+  dungeon-malora:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      # Lunes a Domingo - 10:00 AM
+      '1':
+        Day: monday
+        Hour: 10
+        Minute: 0
+      '2':
+        Day: tuesday
+        Hour: 10
+        Minute: 0
+      '3':
+        Day: wednesday
+        Hour: 10
+        Minute: 0
+      '4':
+        Day: thursday
+        Hour: 10
+        Minute: 0
+      '5':
+        Day: friday
+        Hour: 10
+        Minute: 0
+      '6':
+        Day: saturday
+        Hour: 10
+        Minute: 0
+      '7':
+        Day: sunday
+        Hour: 10
+        Minute: 0
+      # Lunes a Domingo - 2:00 PM
+      '8':
+        Day: monday
+        Hour: 14
+        Minute: 0
+      '9':
+        Day: tuesday
+        Hour: 14
+        Minute: 0
+      '10':
+        Day: wednesday
+        Hour: 14
+        Minute: 0
+      '11':
+        Day: thursday
+        Hour: 14
+        Minute: 0
+      '12':
+        Day: friday
+        Hour: 14
+        Minute: 0
+      '13':
+        Day: saturday
+        Hour: 14
+        Minute: 0
+      '14':
+        Day: sunday
+        Hour: 14
+        Minute: 0
+      # Lunes a Domingo - 6:00 PM
+      '15':
+        Day: monday
+        Hour: 18
+        Minute: 0
+      '16':
+        Day: tuesday
+        Hour: 18
+        Minute: 0
+      '17':
+        Day: wednesday
+        Hour: 18
+        Minute: 0
+      '18':
+        Day: thursday
+        Hour: 18
+        Minute: 0
+      '19':
+        Day: friday
+        Hour: 18
+        Minute: 0
+      '20':
+        Day: saturday
+        Hour: 18
+        Minute: 0
+      '21':
+        Day: sunday
+        Hour: 18
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&c⚔&8] &fᴅᴜɴɢᴇᴏɴ &cᴍᴀʟᴏʀᴀ &fɪɴɪᴄɪᴀʀá ᴇɴ &c2 ᴍɪɴᴜᴛᴏs &8• &7/ᴡᴀʀᴘ ᴅᴜɴɢᴇᴏɴ<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&c⚔&8] &fᴅᴜɴɢᴇᴏɴ &cᴍᴀʟᴏʀᴀ &fɪɴɪᴄɪᴀ ᴇɴ &c60 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &760s
+    - delay! 30
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &730s
+    - delay! 20
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &710s
+    - delay! 5
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &75s
+    - delay! 1
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &74s
+    - delay! 1
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &73s
+    - delay! 1
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &72s
+    - delay! 1
+    - actionbar! &c&l⚔ ᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&c&lᴅᴜɴɢᴇᴏɴ ᴍᴀʟᴏʀᴀ<n> <n>&c&lᴍᴀʟᴏʀᴀ &fʜᴀ ᴀᴘᴀʀᴇᴄɪᴅᴏ<n>&fᴛᴇʟᴇᴘóʀᴛᴀᴛᴇ ᴄᴏɴ &c/ᴡᴀʀᴘ ᴅᴜɴɢᴇᴏɴ<n>&f¡ᴅᴇʀʀᴏᴛᴀ ᴀʟ ᴊᴇғᴇ ʏ ᴏʙᴛéɴ ʀᴇᴄᴏᴍᴘᴇɴsᴀs!<n><n>
+    - mm spawners resettimers MALORA
+    - mm spawners resettimers MOB_MALORA_1
+    - mm spawners resettimers MOB_MALORA_2
+    - mm spawners resettimers MOB_MALORA_3
+    - mm spawners resettimers MOB_MALORA_4
+
+  # DRAGON ANCESTRAL - Todas las apariciones en un solo schedule
+  dungeon-dragon:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      # Lunes a Domingo - 11:00 AM
+      '1':
+        Day: monday
+        Hour: 11
+        Minute: 0
+      '2':
+        Day: tuesday
+        Hour: 11
+        Minute: 0
+      '3':
+        Day: wednesday
+        Hour: 11
+        Minute: 0
+      '4':
+        Day: thursday
+        Hour: 11
+        Minute: 0
+      '5':
+        Day: friday
+        Hour: 11
+        Minute: 0
+      '6':
+        Day: saturday
+        Hour: 11
+        Minute: 0
+      '7':
+        Day: sunday
+        Hour: 11
+        Minute: 0
+      # Lunes a Domingo - 3:00 PM
+      '8':
+        Day: monday
+        Hour: 15
+        Minute: 0
+      '9':
+        Day: tuesday
+        Hour: 15
+        Minute: 0
+      '10':
+        Day: wednesday
+        Hour: 15
+        Minute: 0
+      '11':
+        Day: thursday
+        Hour: 15
+        Minute: 0
+      '12':
+        Day: friday
+        Hour: 15
+        Minute: 0
+      '13':
+        Day: saturday
+        Hour: 15
+        Minute: 0
+      '14':
+        Day: sunday
+        Hour: 15
+        Minute: 0
+      # Lunes a Domingo - 7:00 PM
+      '15':
+        Day: monday
+        Hour: 19
+        Minute: 0
+      '16':
+        Day: tuesday
+        Hour: 19
+        Minute: 0
+      '17':
+        Day: wednesday
+        Hour: 19
+        Minute: 0
+      '18':
+        Day: thursday
+        Hour: 19
+        Minute: 0
+      '19':
+        Day: friday
+        Hour: 19
+        Minute: 0
+      '20':
+        Day: saturday
+        Hour: 19
+        Minute: 0
+      '21':
+        Day: sunday
+        Hour: 19
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&6🐉&8] &fᴅᴜɴɢᴇᴏɴ &6ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &fɪɴɪᴄɪᴀʀá ᴇɴ &62 ᴍɪɴᴜᴛᴏs &8• &7/ᴡᴀʀᴘ ᴅᴜɴɢᴇᴏɴ<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&6🐉&8] &fᴅᴜɴɢᴇᴏɴ &6ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &fɪɴɪᴄɪᴀ ᴇɴ &660 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &760s
+    - delay! 30
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &730s
+    - delay! 20
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &710s
+    - delay! 5
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &75s
+    - delay! 1
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &74s
+    - delay! 1
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &73s
+    - delay! 1
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &72s
+    - delay! 1
+    - actionbar! &6&l🐉 ᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&6&lᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ<n> <n>&6&lᴅʀᴀɢᴏɴ ᴀɴᴄᴇsᴛʀᴀʟ &fʜᴀ ᴅᴇsᴘᴇʀᴛᴀᴅᴏ<n>&fᴛᴇʟᴇᴘóʀᴛᴀᴛᴇ ᴄᴏɴ &6/ᴡᴀʀᴘ ᴅᴜɴɢᴇᴏɴ<n>&f¡ᴇɴғʀéɴᴛᴀᴛᴇ ᴀʟ ᴅʀᴀɢóɴ ʏ ᴘʀᴜᴇʙᴀ ᴛᴜ ᴠᴀʟᴏʀ!<n><n>
+    # - Aquí tu comando para spawnear al DRAGON
+
+  # MOBIUS - Todas las apariciones en un solo schedule
+  dungeon-mobius:
+    Enabled: true
+    MinPlayers: 1
+    MaxPlayers: 200
+    Repeat: true
+    PerformOn:
+      # Lunes a Domingo - 12:00 PM
+      '1':
+        Day: monday
+        Hour: 12
+        Minute: 0
+      '2':
+        Day: tuesday
+        Hour: 12
+        Minute: 0
+      '3':
+        Day: wednesday
+        Hour: 12
+        Minute: 0
+      '4':
+        Day: thursday
+        Hour: 12
+        Minute: 0
+      '5':
+        Day: friday
+        Hour: 12
+        Minute: 0
+      '6':
+        Day: saturday
+        Hour: 12
+        Minute: 0
+      '7':
+        Day: sunday
+        Hour: 12
+        Minute: 0
+      # Lunes a Domingo - 4:00 PM
+      '8':
+        Day: monday
+        Hour: 16
+        Minute: 0
+      '9':
+        Day: tuesday
+        Hour: 16
+        Minute: 0
+      '10':
+        Day: wednesday
+        Hour: 16
+        Minute: 0
+      '11':
+        Day: thursday
+        Hour: 16
+        Minute: 0
+      '12':
+        Day: friday
+        Hour: 16
+        Minute: 0
+      '13':
+        Day: saturday
+        Hour: 16
+        Minute: 0
+      '14':
+        Day: sunday
+        Hour: 16
+        Minute: 0
+      # Lunes a Domingo - 8:00 PM
+      '15':
+        Day: monday
+        Hour: 20
+        Minute: 0
+      '16':
+        Day: tuesday
+        Hour: 20
+        Minute: 0
+      '17':
+        Day: wednesday
+        Hour: 20
+        Minute: 0
+      '18':
+        Day: thursday
+        Hour: 20
+        Minute: 0
+      '19':
+        Day: friday
+        Hour: 20
+        Minute: 0
+      '20':
+        Day: saturday
+        Hour: 20
+        Minute: 0
+      '21':
+        Day: sunday
+        Hour: 20
+        Minute: 0
+    Commands:
+    - rawmsg all true <n>&8[&d🌀&8] &fᴅᴜɴɢᴇᴏɴ &dᴍᴏʙɪᴜs &fɪɴɪᴄɪᴀʀá ᴇɴ &d2 ᴍɪɴᴜᴛᴏs &8• &7/ᴡᴀʀᴘ ᴅᴜɴɢᴇᴏɴ<n>
+    - delay! 60
+    - rawmsg all true <n>&8[&d🌀&8] &fᴅᴜɴɢᴇᴏɴ &dᴍᴏʙɪᴜs &fɪɴɪᴄɪᴀ ᴇɴ &d60 sᴇɢᴜɴᴅᴏs<n>
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &760s
+    - delay! 30
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &730s
+    - delay! 20
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &710s
+    - delay! 5
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &75s
+    - delay! 1
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &74s
+    - delay! 1
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &73s
+    - delay! 1
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &72s
+    - delay! 1
+    - actionbar! &d&l🌀 ᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs &8• &71s
+    - delay! 1
+    - rawmsg all true <n>&d&lᴅᴜɴɢᴇᴏɴ ᴍᴏʙɪᴜs<n> <n>&d&lᴍᴏʙɪᴜs &fʜᴀ ᴇᴍᴇʀɢɪᴅᴏ<n>&fᴛᴇʟᴇᴘóʀᴛᴀᴛᴇ ᴄᴏɴ &d/ᴡᴀʀᴘ ᴅᴜɴɢᴇᴏɴ<n>&f¡ᴅᴏᴍɪɴᴀ ᴇʟ ᴄᴀᴏs ʏ ᴠᴇɴᴄᴇ ᴀ ᴍᴏʙɪᴜs!<n><n>
+    # - Aquí tu comando para spawnear a MOBIUS
+
+# ====================================
+# CALENDARIO DIARIO UNIFICADO
+# ====================================
+# 10:00 AM - MALORA
+# 11:00 AM - DRAGON
+# 12:00 PM - MOBIUS
+# 02:00 PM - MALORA
+# 03:00 PM - DRAGON
+# 04:00 PM - MOBIUS
+# 06:00 PM - MALORA
+# 07:00 PM - DRAGON
+# 08:00 PM - MOBIUS
+# ====================================
