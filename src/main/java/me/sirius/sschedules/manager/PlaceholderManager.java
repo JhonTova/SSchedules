@@ -9,24 +9,24 @@ import java.util.Calendar;
 import java.util.Map;
 
 public class PlaceholderManager {
-    
+
     private final SSchedules plugin;
-    
+
     public PlaceholderManager(SSchedules plugin) {
         this.plugin = plugin;
     }
-    
+
     public String getScheduleCountdown(String scheduleName) {
         Schedule schedule = plugin.getScheduleManager().getSchedule(scheduleName);
-        
+
         if (schedule == null) {
             return ColorUtil.translate(plugin.getConfig().getString("countdown-format.not-found", "&7No encontrado"));
         }
-        
+
         if (!schedule.isEnabled()) {
             return ColorUtil.translate(plugin.getConfig().getString("countdown-format.disabled", "&cDeshabilitado"));
         }
-        
+
         if (schedule.isDelayBased()) {
             return getDelayCountdown(schedule);
         } else if (schedule.isContinuous()) {
@@ -34,89 +34,66 @@ public class PlaceholderManager {
         } else if (schedule.isTimeBased()) {
             return getTimeBasedCountdown(schedule);
         }
-        
+
         return "N/A";
     }
-    
+
     private String getDelayCountdown(Schedule schedule) {
         try {
-            java.lang.reflect.Field field = plugin.getScheduleManager().getClass().getDeclaredField("delayScheduleTimers");
-            field.setAccessible(true);
-            @SuppressWarnings("unchecked")
-            Map<String, Long> timers = (Map<String, Long>) field.get(plugin.getScheduleManager());
-            
-            Long lastExecution = timers.get(schedule.getName());
+            Long lastExecution = plugin.getScheduleManager().lastDelayExecution(schedule.getName());
             if (lastExecution == null) {
                 return ColorUtil.translate(plugin.getConfig().getString("countdown-format.starting", "&eIniciando..."));
             }
-            
+
             long currentTime = System.currentTimeMillis();
             long elapsed = (currentTime - lastExecution) / 1000;
             long remaining = schedule.getDelay() - elapsed;
-            
+
             if (remaining <= 0) {
                 return ColorUtil.translate(plugin.getConfig().getString("countdown-format.executing", "&6⚡ Ejecutando..."));
             }
-            
+
             return formatCountdown(remaining * 1000);
         } catch (Exception e) {
             plugin.getLogger().warning("Error obteniendo countdown para schedule delay: " + schedule.getName());
             return ColorUtil.translate(plugin.getConfig().getString("countdown-format.not-found", "&7Error"));
         }
     }
-    
+
     private String getContinuousCountdown(Schedule schedule) {
         try {
-            java.lang.reflect.Field field = plugin.getScheduleManager().getClass().getDeclaredField("continuousScheduleTimers");
-            field.setAccessible(true);
-            @SuppressWarnings("unchecked")
-            Map<String, Long> timers = (Map<String, Long>) field.get(plugin.getScheduleManager());
-            
-            Long lastExecution = timers.get(schedule.getName());
+            Long lastExecution = plugin.getScheduleManager().lastContinuousExecution(schedule.getName());
             if (lastExecution == null) {
                 return ColorUtil.translate(plugin.getConfig().getString("countdown-format.starting", "&eIniciando..."));
             }
-            
-            TimeFrame timeFrame = schedule.getPerformOn().values().iterator().next();
-            int intervalSeconds = 0;
-            
-            if (timeFrame.getHour() != null) {
-                intervalSeconds += timeFrame.getHour() * 3600;
-            }
-            if (timeFrame.getMinute() != null) {
-                intervalSeconds += timeFrame.getMinute() * 60;
-            }
-            if (timeFrame.getSecond() != null) {
-                intervalSeconds += timeFrame.getSecond();
-            }
-            
-            if (intervalSeconds == 0) intervalSeconds = 1;
-            
+
+            int intervalSeconds = schedule.getPerformOn().values().iterator().next().intervalSeconds();
+
             long currentTime = System.currentTimeMillis();
             long elapsed = (currentTime - lastExecution) / 1000;
             long remaining = intervalSeconds - elapsed;
-            
+
             if (remaining <= 0) {
                 return ColorUtil.translate(plugin.getConfig().getString("countdown-format.executing", "&6⚡ Ejecutando..."));
             }
-            
+
             return formatCountdown(remaining * 1000);
         } catch (Exception e) {
             plugin.getLogger().warning("Error obteniendo countdown para schedule continuo: " + schedule.getName());
             return ColorUtil.translate(plugin.getConfig().getString("countdown-format.not-found", "&7Error"));
         }
     }
-    
+
     private String getTimeBasedCountdown(Schedule schedule) {
         Calendar now = Calendar.getInstance(plugin.getTimeZone());
         long currentTime = now.getTimeInMillis();
-        
+
         long nearestTime = Long.MAX_VALUE;
-        
+
         for (Map.Entry<String, TimeFrame> entry : schedule.getPerformOn().entrySet()) {
             TimeFrame timeFrame = entry.getValue();
             Calendar target = getNextOccurrence(timeFrame, now);
-            
+
             if (target != null) {
                 long targetTime = target.getTimeInMillis();
                 if (targetTime > currentTime && targetTime < nearestTime) {
@@ -124,52 +101,52 @@ public class PlaceholderManager {
                 }
             }
         }
-        
+
         if (nearestTime == Long.MAX_VALUE) {
             return ColorUtil.translate(plugin.getConfig().getString("countdown-format.no-schedule", "&7Sin programar"));
         }
-        
+
         long diff = nearestTime - currentTime;
-        
+
         if (diff <= 0) {
             return ColorUtil.translate(plugin.getConfig().getString("countdown-format.executing", "&6⚡ Ejecutando..."));
         }
-        
+
         return formatCountdown(diff);
     }
-    
+
     private Calendar getNextOccurrence(TimeFrame timeFrame, Calendar now) {
         Calendar target = (Calendar) now.clone();
-        
+
         target.set(Calendar.MILLISECOND, 0);
-        
+
         if (timeFrame.getSecond() != null) {
             target.set(Calendar.SECOND, timeFrame.getSecond());
         } else {
             target.set(Calendar.SECOND, 0);
         }
-        
+
         if (timeFrame.getMinute() != null) {
             target.set(Calendar.MINUTE, timeFrame.getMinute());
         } else if (timeFrame.getSecond() == null) {
             target.set(Calendar.MINUTE, 0);
         }
-        
+
         if (timeFrame.getHour() != null) {
             target.set(Calendar.HOUR_OF_DAY, timeFrame.getHour());
         } else if (timeFrame.getMinute() == null && timeFrame.getSecond() == null) {
             target.set(Calendar.HOUR_OF_DAY, 0);
         }
-        
+
         if (timeFrame.getDay() != null) {
             if (timeFrame.getDayAsNumber() != null) {
                 target.set(Calendar.DAY_OF_MONTH, timeFrame.getDayAsNumber());
             } else if (timeFrame.getDayAsString() != null) {
-                int dayOfWeek = getDayOfWeekFromName(timeFrame.getDayAsString().toLowerCase());
+                int dayOfWeek = TimeFrame.dayOfWeek(timeFrame.getDayAsString());
                 if (dayOfWeek != -1) {
                     int currentDayOfWeek = now.get(Calendar.DAY_OF_WEEK);
                     int daysToAdd = dayOfWeek - currentDayOfWeek;
-                    
+
                     if (daysToAdd < 0) {
                         daysToAdd += 7;
                     } else if (daysToAdd == 0) {
@@ -177,16 +154,16 @@ public class PlaceholderManager {
                             daysToAdd = 7;
                         }
                     }
-                    
+
                     target.add(Calendar.DAY_OF_MONTH, daysToAdd);
                 }
             }
         }
-        
+
         if (timeFrame.getMonth() != null) {
             target.set(Calendar.MONTH, timeFrame.getMonth() - 1);
         }
-        
+
         if (target.before(now) || target.equals(now)) {
             if (timeFrame.getDay() != null && timeFrame.getDayAsString() != null) {
                 target.add(Calendar.WEEK_OF_YEAR, 1);
@@ -202,40 +179,10 @@ public class PlaceholderManager {
                 target.add(Calendar.MINUTE, 1);
             }
         }
-        
+
         return target;
     }
-    
-    private int getDayOfWeekFromName(String day) {
-        switch (day) {
-            case "sunday":
-            case "domingo":
-                return Calendar.SUNDAY;
-            case "monday":
-            case "lunes":
-                return Calendar.MONDAY;
-            case "tuesday":
-            case "martes":
-                return Calendar.TUESDAY;
-            case "wednesday":
-            case "miercoles":
-            case "miércoles":
-                return Calendar.WEDNESDAY;
-            case "thursday":
-            case "jueves":
-                return Calendar.THURSDAY;
-            case "friday":
-            case "viernes":
-                return Calendar.FRIDAY;
-            case "saturday":
-            case "sabado":
-            case "sábado":
-                return Calendar.SATURDAY;
-            default:
-                return -1;
-        }
-    }
-    
+
     private String formatCountdown(long milliseconds) {
         long totalSeconds = milliseconds / 1000;
         long seconds = totalSeconds % 60;
@@ -244,9 +191,9 @@ public class PlaceholderManager {
         long totalHours = totalMinutes / 60;
         long hours = totalHours % 24;
         long days = totalHours / 24;
-        
+
         String format;
-        
+
         if (days > 0) {
             format = plugin.getConfig().getString("countdown-format.with-days", "&e{days}d &f/ &b{hours}h &f/ &a{minutes}m");
             format = format.replace("{days}", String.valueOf(days))
@@ -274,7 +221,7 @@ public class PlaceholderManager {
             format = format.replace("{seconds}", String.valueOf(seconds))
                           .replace("{s}", String.valueOf(seconds));
         }
-        
+
         return ColorUtil.translate(format);
     }
 }

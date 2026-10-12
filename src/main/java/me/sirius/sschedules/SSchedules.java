@@ -14,6 +14,7 @@ public class SSchedules extends SiriusPlugin {
     private ScheduleManager scheduleManager;
     private PlaceholderManager placeholderManager;
     private TimeZone timeZone;
+    private me.sirius.sschedules.placeholder.SchedulePlaceholder expansion;
     
     @Override
     protected void onStart() {
@@ -43,7 +44,8 @@ public class SSchedules extends SiriusPlugin {
         Bukkit.getScheduler().runTaskLater(this, () -> {
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
                 try {
-                    boolean registered = new me.sirius.sschedules.placeholder.SchedulePlaceholder(this).register();
+                    expansion = new me.sirius.sschedules.placeholder.SchedulePlaceholder(this);
+                    boolean registered = expansion.register();
                     if (registered) {
                         getLogger().info("✓ PlaceholderAPI detectado - Placeholders registrados correctamente");
                         getLogger().info("  Usa: %schedule_<nombre-del-schedule>% en tus hologramas");
@@ -67,6 +69,10 @@ public class SSchedules extends SiriusPlugin {
     protected void onStop() {
         if (scheduleManager != null) {
             scheduleManager.stopScheduler();
+        }
+        if (expansion != null) {
+            expansion.unregister();
+            expansion = null;
         }
         getLogger().info("SSchedules deshabilitado correctamente");
     }

@@ -5,6 +5,7 @@ import me.sirius.core.text.Text;
 import me.sirius.sschedules.SSchedules;
 import me.sirius.sschedules.model.Schedule;
 import me.sirius.sschedules.util.ColorUtil;
+import me.sirius.sschedules.util.RandomPlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -12,19 +13,19 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import java.util.*;
 
 public class CommandExecutor {
-    
+
     private final SSchedules plugin;
-    
+
     public CommandExecutor(SSchedules plugin) {
         this.plugin = plugin;
     }
-    
+
     public void executeCommands(Schedule schedule, List<String> commands) {
         List<String> commandsToExecute = getCommandsBasedOnMode(schedule, commands);
-        
+
         executeCommandList(commandsToExecute, schedule, 0);
     }
-    
+
     private List<String> getCommandsBasedOnMode(Schedule schedule, List<String> commands) {
         if (schedule.isRandomize()) {
             return getRandomCommand(schedule, commands, false);
@@ -35,51 +36,51 @@ public class CommandExecutor {
         }
         return new ArrayList<>(commands);
     }
-    
+
     private List<String> getRandomCommand(Schedule schedule, List<String> commands, boolean allowDuplicates) {
         if (allowDuplicates) {
             Random random = new Random();
             return Collections.singletonList(commands.get(random.nextInt(commands.size())));
         }
-        
+
         List<String> used = schedule.getUsedRandomCommands();
         if (used == null) {
             used = new ArrayList<>();
             schedule.setUsedRandomCommands(used);
         }
-        
+
         List<String> available = new ArrayList<>(commands);
         available.removeAll(used);
-        
+
         if (available.isEmpty()) {
             used.clear();
             available = new ArrayList<>(commands);
         }
-        
+
         Random random = new Random();
         String selected = available.get(random.nextInt(available.size()));
         used.add(selected);
-        
+
         return Collections.singletonList(selected);
     }
-    
+
     private List<String> getLinearCommand(Schedule schedule, List<String> commands) {
         int index = schedule.getCurrentLinearIndex();
         if (index >= commands.size()) {
             index = 0;
         }
-        
+
         String command = commands.get(index);
         schedule.setCurrentLinearIndex(index + 1);
-        
+
         return Collections.singletonList(command);
     }
-    
+
     private void executeCommandList(List<String> commands, Schedule schedule, int index) {
         if (index >= commands.size()) return;
-        
+
         String command = commands.get(index);
-        
+
         if (command.startsWith("delay!")) {
             String[] parts = command.split(" ", 2);
             if (parts.length > 1) {
@@ -96,10 +97,10 @@ public class CommandExecutor {
         } else {
             executeCommand(command, schedule);
         }
-        
+
         executeCommandList(commands, schedule, index + 1);
     }
-    
+
     private void executeCommand(String command, Schedule schedule) {
         if (command.contains(";;")) {
             String[] multiCommands = command.split(";;");
@@ -110,7 +111,7 @@ public class CommandExecutor {
             executeSingleCommand(command, schedule);
         }
     }
-    
+
     private void executeSingleCommand(String command, Schedule schedule) {
         if (command.startsWith("msg!")) {
             handleMessageCommand(command);
@@ -133,10 +134,10 @@ public class CommandExecutor {
         } else if (command.startsWith("allPlayers!")) {
             handleAllPlayersCommand(command, schedule);
         } else {
-            String processedCommand = schedule.isDontTranslatePlaceholders() ? 
+            String processedCommand = schedule.isDontTranslatePlaceholders() ?
                 command : translatePlaceholders(command, null);
             processedCommand = processRandomPlayer(processedCommand);
-            
+
             try {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), processedCommand);
                 if (schedule.isFeedback()) {
@@ -147,27 +148,27 @@ public class CommandExecutor {
             }
         }
     }
-    
+
     private void handleMessageCommand(String command) {
         String[] parts = command.substring(4).split(" ", 2);
         if (parts.length < 2) return;
-        
+
         String playerName = parts[0].trim();
         String message = parts[1].trim();
-        
+
         Player player = Bukkit.getPlayer(playerName);
         if (player != null) {
             player.sendMessage(ColorUtil.translate(translatePlaceholders(message, player)));
         }
     }
-    
+
     private void handleBroadcastCommand(String command) {
         String message = command.substring(10).trim();
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(ColorUtil.translate(translatePlaceholders(message, player)));
         }
     }
-    
+
     private void handleActionbarCommand(String command) {
         String message = command.substring(10).trim();
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -178,7 +179,7 @@ public class CommandExecutor {
             }
         }
     }
-    
+
     private void handleTitleCommand(String command) {
         String message = command.substring(6).trim();
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -189,7 +190,7 @@ public class CommandExecutor {
             }
         }
     }
-    
+
     private void handleSubtitleCommand(String command) {
         String message = command.substring(9).trim();
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -200,11 +201,11 @@ public class CommandExecutor {
             }
         }
     }
-    
+
     private void handleKickallCommand(String command) {
         String message = command.substring(8).trim();
         String translatedMessage = ColorUtil.translate(message);
-        
+
         List<Player> playersToKick = new ArrayList<>(Bukkit.getOnlinePlayers());
         for (Player player : playersToKick) {
             try {
@@ -214,14 +215,14 @@ public class CommandExecutor {
             }
         }
     }
-    
+
     private void handlePermCommand(String command, Schedule schedule) {
         int endPerm = command.indexOf("!", 5);
         if (endPerm == -1) return;
-        
+
         String permission = command.substring(5, endPerm);
         String actualCommand = command.substring(endPerm + 1).trim();
-        
+
         boolean foundPlayer = false;
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.hasPermission(permission)) {
@@ -229,20 +230,20 @@ public class CommandExecutor {
                 break;
             }
         }
-        
+
         if (foundPlayer) {
             executeSingleCommand(actualCommand, schedule);
         }
     }
-    
+
     private void handleMoneyCostCommand(String command, Schedule schedule) {
         int endCost = command.indexOf("!", 10);
         if (endCost == -1) return;
-        
+
         try {
             double cost = Double.parseDouble(command.substring(10, endCost));
             String actualCommand = command.substring(endCost + 1).trim();
-            
+
             if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
                 boolean foundPlayer = false;
                 for (Player player : Bukkit.getOnlinePlayers()) {
@@ -251,7 +252,7 @@ public class CommandExecutor {
                         break;
                     }
                 }
-                
+
                 if (foundPlayer) {
                     executeSingleCommand(actualCommand, schedule);
                 }
@@ -260,15 +261,15 @@ public class CommandExecutor {
             plugin.getLogger().warning("Costo de dinero inválido en comando");
         }
     }
-    
+
     private void handleExpCostCommand(String command, Schedule schedule) {
         int endCost = command.indexOf("!", 8);
         if (endCost == -1) return;
-        
+
         try {
             int cost = Integer.parseInt(command.substring(8, endCost));
             String actualCommand = command.substring(endCost + 1).trim();
-            
+
             boolean foundPlayer = false;
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (player.getTotalExperience() >= cost) {
@@ -276,7 +277,7 @@ public class CommandExecutor {
                     break;
                 }
             }
-            
+
             if (foundPlayer) {
                 executeSingleCommand(actualCommand, schedule);
             }
@@ -284,14 +285,14 @@ public class CommandExecutor {
             plugin.getLogger().warning("Costo de exp inválido en comando");
         }
     }
-    
+
     private void handleAllPlayersCommand(String command, Schedule schedule) {
         String actualCommand = command.substring(11).trim();
-        
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             String processedCommand = actualCommand.replace("[allPlayers]", player.getName());
             processedCommand = translatePlaceholders(processedCommand, player);
-            
+
             try {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), processedCommand);
             } catch (Exception e) {
@@ -299,7 +300,7 @@ public class CommandExecutor {
             }
         }
     }
-    
+
     private String processRandomPlayer(String command) {
         if (command.contains("[randomPlayer]")) {
             List<Player> eligible = new ArrayList<>();
@@ -308,7 +309,7 @@ public class CommandExecutor {
                     eligible.add(player);
                 }
             }
-            
+
             if (!eligible.isEmpty()) {
                 Random random = new Random();
                 Player randomPlayer = eligible.get(random.nextInt(eligible.size()));
@@ -317,7 +318,7 @@ public class CommandExecutor {
         }
         return command;
     }
-    
+
     private String translatePlaceholders(String text, Player player) {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null && player != null) {
             try {
@@ -326,41 +327,14 @@ public class CommandExecutor {
                 plugin.getLogger().warning("Error traduciendo placeholders: " + e.getMessage());
             }
         }
-        
+
         if (text.contains("%rand/")) {
-            text = processRandomPlaceholder(text);
+            text = RandomPlaceholder.apply(text, java.util.concurrent.ThreadLocalRandom.current());
         }
-        
+
         return text;
     }
-    
-    private String processRandomPlaceholder(String text) {
-        while (text.contains("%rand/")) {
-            int start = text.indexOf("%rand/");
-            int end = text.indexOf("%", start + 1);
-            if (end == -1) break;
-            
-            String placeholder = text.substring(start, end + 1);
-            String range = placeholder.substring(6, placeholder.length() - 1);
-            String[] parts = range.split("-");
-            
-            if (parts.length == 2) {
-                try {
-                    int min = Integer.parseInt(parts[0]);
-                    int max = Integer.parseInt(parts[1]);
-                    Random random = new Random();
-                    int value = random.nextInt(max - min + 1) + min;
-                    text = text.replace(placeholder, String.valueOf(value));
-                } catch (NumberFormatException e) {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-        return text;
-    }
-    
+
     private boolean hasEnoughMoney(Player player, double amount) {
         return true;
     }
